@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "NPT CheckIn",
+    "slug": "NPTCheckIn",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "splash": {
+      "image": "./assets/images/1.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "bundleIdentifier": "com.travellercheckin.travellercheckin",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.travellercheckin.travellercheckin",
+      "versionCode": 1
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
