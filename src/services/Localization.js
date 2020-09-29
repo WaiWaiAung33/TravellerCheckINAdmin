@@ -105,6 +105,21 @@ const EN = {
   plustownship: "Covid Positive Case",
   pluscasedetail: "Covid Positive Case Patient",
   age: "Age",
+  labtestdate:"Lab Test Date",
+  labresult:"Lab Result",
+  announcedate:"Announced Date",
+  occupation:"Occupation",
+  nationality:"Nationality",
+  permenttownship:"Perment Township",
+  fulladdress:"Full Address",
+  currentlocation:"Current Location",
+  diseasecontact:"Disease Contact",
+  travelhistory:"Travel History",
+  hospitalname:"Hospital Name",
+  type:"Type",
+  currentstatus:"Current status",
+  remark:"Remark",
+  location:"Location"
 };
 
 //Myanmar Language
@@ -206,6 +221,21 @@ const MM = {
   plustownship: "Covid အတည်ပြုလူနာများ",
   pluscasedetail: "Covid အတည်ပြုလူနာများ",
   age: "အသက်",
+  labtestdate:"ဓာတ်ခွဲခန်းစမ်းသပ်သည့်ရက်",
+  labresult:"စမ်းသပ်သည့်အဖြေ",
+  announcedate:"ကြေငြာသည့်ရက်စွဲ",
+  occupation:"အလုပ်အကိုင်",
+  nationality:"နိုင်ငံသား",
+  permenttownship:"အမြဲတမ်းမြို့",
+  fulladdress:"လိပ်စာအပြည့်အစုံ",
+  currentlocation:"လက်ရှိတည်နေရာ",
+  diseasecontact:"ရောဂါဆက်သွယ်မှု",
+  travelhistory:"ခရီးသွားမှတ်တမ်း",
+  hospitalname:"ဆေးရုံးအမည်",
+  type:"အမျိုးအစား",
+  currentstatus:"လက်ရှိအခြေအနေ",
+  remark:"မှတ်ချက်",
+  location:"တည်နေရာ"
 };
 
 i18n.fallbacks = true;

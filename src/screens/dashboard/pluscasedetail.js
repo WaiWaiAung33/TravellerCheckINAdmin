@@ -57,32 +57,48 @@ export default class Pluscasedetail extends React.Component {
             <View style={{ flex: 1, alignSelf: "center" }}>
               <Text>{data.case_id}</Text>
               <Text>{data.name}</Text>
-              <Text style={{ paddingTop: 5 }}>{data.age}</Text>
+              <Text>{data.age}</Text>
               <Text style={{ paddingTop: 10 }}>{data.sex}</Text>
             </View>
           </View>
-          <View
-            style={{ flexDirection: "row", borderBottomWidth: 1, margin: 5 }}
-          >
+
+          <View style={{ flexDirection: "row", marginLeft: 5, marginRight: 5 }}>
             <View style={{ flex: 1, alignSelf: "center" }}>
-              <Text>Lab Tested Date</Text>
-              <Text style={{ paddingTop: 5 }}>Lab Result</Text>
-              <Text style={{ paddingTop: 5, paddingBottom: 5 }}>
-                Announced Date
-              </Text>
+              <Text>{t("labtestdate", this.state.locael)}</Text>
             </View>
             <View style={{ flex: 1, alignSelf: "center" }}>
               <Text>{Moment(data.lab_tested_date).format("DD-MM-YYYY")}</Text>
-              <Text style={{ paddingTop: 5 }}>{data.lab_result}</Text>
-              <Text style={{ paddingTop: 5, paddingEnd: 5 }}>
-                {Moment(data.announced_date).format("DD-MM-YYYY")}
-              </Text>
+            </View>
+          </View>
+
+          <View style={{ flexDirection: "row", marginLeft: 5, marginRight: 5 }}>
+            <View style={{ flex: 1, alignSelf: "center" }}>
+              <Text>{t("labresult", this.state.locael)}</Text>
+            </View>
+            <View style={{ flex: 1, alignSelf: "center" }}>
+              <Text>{data.lab_result}</Text>
+            </View>
+          </View>
+
+          <View
+            style={{
+              flexDirection: "row",
+              margin: 5,
+              borderBottomWidth: 1,
+              paddingBottom: 5,
+            }}
+          >
+            <View style={{ flex: 1, alignSelf: "center" }}>
+          <Text>{t("announcedate",this.state.locael)}</Text>
+            </View>
+            <View style={{ flex: 1, alignSelf: "center" }}>
+              <Text>{Moment(data.announced_date).format("DD-MM-YYYY")}</Text>
             </View>
           </View>
 
           <View style={{ flexDirection: "row", margin: 5 }}>
-            <View style={{ flex: 1, alignSelf: "center" }}>
-              <Text>Occupation</Text>
+            <View style={{ flex: 1}}>
+          <Text>{t("occupation",this.state.locael)}</Text>
             </View>
             <View style={{ flex: 1, alignSelf: "center" }}>
               <Text>{data.occupation}</Text>
@@ -93,8 +109,8 @@ export default class Pluscasedetail extends React.Component {
             style={{ flexDirection: "row", borderBottomWidth: 1, margin: 5 }}
           >
             <View style={{ flex: 1, alignSelf: "center" }}>
-              <Text>Nationality</Text>
-              <Text>Parament Townnship</Text>
+          <Text>{t("nationality",this.state.locael)}</Text>
+          <Text>{t("permenttownship",this.state.locael)}</Text>
             </View>
             <View style={{ flex: 1, alignSelf: "center" }}>
               <Text>{data.national}</Text>
@@ -106,7 +122,7 @@ export default class Pluscasedetail extends React.Component {
             style={{ flexDirection: "row", borderBottomWidth: 1, margin: 5 }}
           >
             <View style={{ flex: 1, alignSelf: "center" }}>
-              <Text>Full Address</Text>
+          <Text>{t("fulladdress",this.state.locael)}</Text>
             </View>
             <View style={{ flex: 1, alignSelf: "center" }}>
               <Text>{data.full_address}</Text>
@@ -115,7 +131,7 @@ export default class Pluscasedetail extends React.Component {
 
           <View style={{ flexDirection: "row", marginLeft: 5, marginRight: 5 }}>
             <View style={{ flex: 1, alignSelf: "center" }}>
-              <Text>Current Location</Text>
+          <Text>{t("currentlocation",this.state.locael)}</Text>
             </View>
             <View style={{ flex: 1, alignSelf: "center" }}>
               <Text>{data.current_location}</Text>
@@ -124,7 +140,7 @@ export default class Pluscasedetail extends React.Component {
 
           <View style={{ flexDirection: "row", marginLeft: 5, marginRight: 5 }}>
             <View style={{ flex: 1, alignSelf: "center" }}>
-              <Text>Disease Contact</Text>
+          <Text>{t("diseasecontact",this.state.locael)}</Text>
             </View>
             <View style={{ flex: 1, alignSelf: "center" }}>
               <Text>{data.disease_contact}</Text>
@@ -150,7 +166,7 @@ export default class Pluscasedetail extends React.Component {
             style={{ flexDirection: "row", margin: 5, borderBottomWidth: 1 }}
           >
             <View style={{ flex: 1, alignSelf: "center" }}>
-              <Text style={{ paddingBottom: 5 }}>Travel History</Text>
+          <Text style={{ paddingBottom: 5 }}>{t("travelhistory",this.state.locael)}</Text>
             </View>
             <View style={{ flex: 1, alignSelf: "center" }}>
               <Text style={{ paddingBottom: 5 }}>{data.travel_history}</Text>
@@ -159,7 +175,7 @@ export default class Pluscasedetail extends React.Component {
 
           <View style={{ flexDirection: "row", marginLeft: 5, marginRight: 5 }}>
             <View style={{ flex: 1, alignSelf: "center" }}>
-              <Text style={{ paddingBottom: 5 }}>Hospital Name</Text>
+          <Text style={{ paddingBottom: 5 }}>{t("hospitalname",this.state.locael)}</Text>
             </View>
             <View style={{ flex: 1, alignSelf: "center" }}>
               <Text style={{ paddingBottom: 5 }}>{data.hospital_name}</Text>
@@ -167,7 +183,7 @@ export default class Pluscasedetail extends React.Component {
           </View>
           <View style={{ flexDirection: "row", marginLeft: 5, marginRight: 5 }}>
             <View style={{ flex: 1, alignSelf: "center" }}>
-              <Text style={{ paddingBottom: 5 }}>Type</Text>
+          <Text style={{ paddingBottom: 5 }}>{t("type",this.state.locael)}</Text>
             </View>
             <View style={{ flex: 1, alignSelf: "center" }}>
               <Text style={{ paddingBottom: 5 }}>{data.type}</Text>
@@ -183,7 +199,7 @@ export default class Pluscasedetail extends React.Component {
             }}
           >
             <View style={{ flex: 1, alignSelf: "center" }}>
-              <Text style={{ paddingBottom: 5 }}>Current status</Text>
+          <Text style={{ paddingBottom: 5 }}>{t("currentstatus",this.state.locael)}</Text>
             </View>
             <View style={{ flex: 1, alignSelf: "center" }}>
               <Text style={{ paddingBottom: 5 }}>{data.current_status}</Text>
@@ -194,7 +210,7 @@ export default class Pluscasedetail extends React.Component {
             style={{ flexDirection: "row", margin: 5, borderBottomWidth: 1 }}
           >
             <View style={{ flex: 1, alignSelf: "center" }}>
-              <Text style={{ paddingBottom: 5 }}>Remark</Text>
+          <Text style={{ paddingBottom: 5 }}>{t("remark",this.state.locael)}</Text>
             </View>
             <View style={{ flex: 1, alignSelf: "center" }}>
               <Text style={{ paddingBottom: 5 }}>{data.remark}</Text>
@@ -216,7 +232,7 @@ export default class Pluscasedetail extends React.Component {
               onPress={() => this._handleMap()}
             >
               <Image source={require("@images/map.png")} />
-              <Text style={{ paddingLeft: 5 }}>Location</Text>
+          <Text style={{ paddingLeft: 5 }}>{t("location",this.state.locael)}</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>

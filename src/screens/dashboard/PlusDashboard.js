@@ -61,6 +61,7 @@ export default class Category extends React.Component {
   };
   render() {
     // console.log(this.state.total);
+    // alert(this.state.locale);
     return (
       <View style={styles.container}>
         <Header
@@ -102,7 +103,7 @@ export default class Category extends React.Component {
                       <Text
                         style={[styles.textheader, { textAlign: "center" }]}
                       >
-                        {data.tsh_en}
+                        {this.state.locale == "MM" ? data.tsh_mm : data.tsh_en}
                       </Text>
                     </View>
                     <View
