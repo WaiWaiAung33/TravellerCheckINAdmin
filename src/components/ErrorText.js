@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet,Image,View } from "react-native";
+import { Text, StyleSheet, Image, View } from "react-native";
 
 export default class ErrorText extends React.Component {
   render() {
@@ -16,9 +16,9 @@ const styles = StyleSheet.create({
   errText: {
     color: "red",
     // fontFamily: Fonts.primary,
-    fontSize: 14
+    fontSize: 14,
   },
-  container:{
-    alignItems:"flex-end"
-  }
+  container: {
+    alignItems: "flex-end",
+  },
 });

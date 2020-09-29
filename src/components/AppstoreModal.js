@@ -7,7 +7,7 @@ import {
   Image,
   Text,
   Linking,
-  BackHandler
+  BackHandler,
 } from "react-native";
 
 //import services
@@ -19,9 +19,9 @@ export default class LanguageModal extends React.Component {
     this.state = {
       local: "",
     };
-    this.BackHandler=null;
+    this.BackHandler = null;
   }
-  async componentDidMount(){
+  async componentDidMount() {
     await this.setBackHandler();
   }
   async setBackHandler() {
@@ -46,12 +46,12 @@ export default class LanguageModal extends React.Component {
       this.props.onClose();
     }
   }
-  _handleLanguage(){
+  _handleLanguage() {
     Linking.openURL(this.props.link);
   }
-  _onPress(){
-    if(this.props.OnPress){
-        this.props.OnPress();
+  _onPress() {
+    if (this.props.OnPress) {
+      this.props.OnPress();
     }
   }
   render() {
@@ -74,44 +74,60 @@ export default class LanguageModal extends React.Component {
                 <Text
                   style={{ paddingTop: 10, paddingBottom: 10, color: "white" }}
                 >
-                 App Version
+                  App Version
                 </Text>
               </View>
-              {/* <TouchableOpacity
-                onPress={() => this.close()}
-                style={styles.closeBtn}
-              >
-                <Image
-                  source={require("@images/cross.png")}
-                  style={styles.closeIcon}
-                />
-              </TouchableOpacity> */}
             </View>
             <View style={styles.chooseLangContainer}>
               <TouchableOpacity
                 onPress={() => this._handleLanguage()}
                 style={{
-                  backgroundColor:"#E5DEDE",
-                  marginBottom:15
+                  backgroundColor: "#E5DEDE",
+                  marginBottom: 15,
                 }}
               >
                 <View style={styles.myanmarCheck}>
-                  <Image source={require("@images/app.png")} style={{width:20,height:20}} />
-                  <Text style={{paddingLeft:10}}>Download from App Store</Text>
+                  <Image
+                    source={require("@images/app.png")}
+                    style={{ width: 20, height: 20 }}
+                  />
+                  <Text style={{ paddingLeft: 10 }}>
+                    Download from App Store
+                  </Text>
                 </View>
               </TouchableOpacity>
-           
             </View>
-            <View style={{borderWidth:1,width:"100%",height:2,backgroundColor:"#000"}}/>
-            <View style={{justifyContent:"center",alignItems:"center",marginBottom:15}}>
-                <TouchableOpacity style={{width:80,height:35,
-                    backgroundColor:"#308DCC",marginTop:10,justifyContent:"center",
-                    alignItems:"center",borderWidth:1,borderColor:"#308DCC",borderRadius:5
-                    }}
-                    onPress={()=>this._onPress()}
-                    >
-                    <Text style={{color:"#ffffff"}}>Exit</Text>
-                </TouchableOpacity>
+            <View
+              style={{
+                borderWidth: 1,
+                width: "100%",
+                height: 2,
+                backgroundColor: "#000",
+              }}
+            />
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: 15,
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  width: 80,
+                  height: 35,
+                  backgroundColor: "#308DCC",
+                  marginTop: 10,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderWidth: 1,
+                  borderColor: "#308DCC",
+                  borderRadius: 5,
+                }}
+                onPress={() => this._onPress()}
+              >
+                <Text style={{ color: "#ffffff" }}>Exit</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>

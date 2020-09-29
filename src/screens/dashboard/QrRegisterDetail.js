@@ -8,16 +8,18 @@ import {
   ScrollView,
   BackHandler,
   AsyncStorage,
+  TouchableOpacity,
 } from "react-native";
 
 //import components
 import Header from "@components/Header";
+import SuccessModal from "@components/SuccessModal";
 
 //import services
 import { t, getLang } from "@services/Localization";
 
 const axios = require("axios");
-import { RegisterHistoryDetailApi } from "@api/Url";
+import { RegisterHistoryDetailApi,CancelApi } from "@api/Url";
 import { TouchableHighlight, BaseUrl } from "react-native-gesture-handler";
 
 export default class ToleGateCard extends React.Component {
@@ -46,6 +48,8 @@ export default class ToleGateCard extends React.Component {
       check_by: "",
       approve_by: "",
       gender: "",
+      isOpenSuccessModel: false,
+      isOpenSuccessModelApprove:false
     };
     this.BackHandler = null;
   }
@@ -142,6 +146,31 @@ export default class ToleGateCard extends React.Component {
       return t("nrcno", this.state.locale);
     }
   }
+
+  _handleApprove(){
+    const self = this;
+    let bodyParam={
+        userId:this.props.navigation.getParam("userid"),
+        status:3,
+        qr_status:2,
+        cancel_status:1
+    };
+    axios
+    .post(CancelApi,bodyParam,{
+        headers:{
+            Accept: "application/json",
+            Authorization:"Bearer "+self.state.access_token
+        }
+    })
+    .then(function(response){
+        self.setState({
+            isOpenSuccessModelApprove:true
+        })
+    })
+    .catch(function(err){
+        console.log(err);
+    })
+  }
   showNameNo() {
     if (this.state.citizenstatus == 4) {
       return this.state.passport;
@@ -149,14 +178,28 @@ export default class ToleGateCard extends React.Component {
       return this.state.nrc;
     }
   }
+  // _handleOnClose() {
+  //   this.setState({ isOpenSuccessModel: false });
+  //   this.props.navigation.navigate("Registeruser");
+  //   // if(this.state.isserrorclaer == true){
+  //   //   this._gotoStep(1);
+  //   // }
+  // }
+  _handleOnCloseApprove() {
+    this.setState({ isOpenSuccessModelApprove: false });
+    this.props.navigation.navigate("Home");
+    // if(this.state.isserrorclaer == true){
+    //   this._gotoStep(1);
+    // }
+  }
   render() {
     // console.log(this.props.navigation.getParam("userid"));
-    const data = this.props.navigation.getParam("backRoute");
+    // const data = this.props.navigation.getParam("backRoute");
     return (
       <View>
         <Header
           name={t("detail", this.state.locale)}
-          Onpress={() => this.props.navigation.navigate(data)}
+          Onpress={() => this.props.navigation.navigate("Home")}
         />
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -391,33 +434,82 @@ export default class ToleGateCard extends React.Component {
             </View>
           ) : null}
 
-          <View style={{ width: "45%", marginLeft: 10, marginTop: 10 }}>
-            <Text>{t("support", this.state.locale)}</Text>
-            {/* <View
+          {
+            this.state.approvephotoName ? (
+              <View style={{ width: "45%", marginLeft: 10, marginTop: 10 }}>
+              <Text>{t("support", this.state.locale)}</Text>
+              {/* <View
+                style={{
+                  height: 150,
+                  borderWidth: 1,
+                  borderRadius: 5,
+                  borderColor: "#E3EEF5",
+                  backgroundColor: "#E3EEF5",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  elevation: 3,
+                  shadowOffset: { width: 2, height: 2 },
+                  shadowOpacity: 0.5,
+                  marginTop: 5,
+                }}
+              > */}
+              <Image
+                source={{
+                  uri:
+                    "http://128.199.79.79/Covid/public/" +
+                    this.state.imagePath +
+                    "/" +
+                    this.state.approvephotoName,
+                }}
+                style={{ width: 150, height: 150, marginTop: 5 }}
+              />
+            </View>
+            ):null
+          }
+
+         
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              margin: 10,
+            }}
+          >
+            {/* <TouchableOpacity
               style={{
-                height: 150,
-                borderWidth: 1,
-                borderRadius: 5,
-                borderColor: "#E3EEF5",
-                backgroundColor: "#E3EEF5",
+                backgroundColor: "#EBB318",
+                flex: 1,
+                marginRight: 10,
                 justifyContent: "center",
                 alignItems: "center",
-                elevation: 3,
-                shadowOffset: { width: 2, height: 2 },
-                shadowOpacity: 0.5,
-                marginTop: 5,
+                padding: 5,
+                borderWidth: 1,
+                borderColor: "#EBB318",
+                borderRadius: 5,
               }}
-            > */}
-            <Image
-              source={{
-                uri:
-                  "http://128.199.79.79/Covid/public/" +
-                  this.state.imagePath +
-                  "/" +
-                  this.state.approvephotoName,
+              onPress={()=>this._handleEdit()}
+            >
+              <Text style={{ color: "#ffffff" }}>
+                {t("editregister", this.state.locale)}
+              </Text>
+            </TouchableOpacity> */}
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#308DCC",
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                borderWidth: 1,
+                borderColor: "#308DCC",
+                borderRadius: 5,
+                padding:5
               }}
-              style={{ width: 150, height: 150, marginTop: 5 }}
-            />
+              onPress={()=>this._handleApprove()}
+            >
+              <Text style={{ color: "#ffffff" }}>
+                {t("qrapprove", this.state.locale)}
+              </Text>
+            </TouchableOpacity>
           </View>
           {/* <View
             style={{
@@ -441,6 +533,16 @@ export default class ToleGateCard extends React.Component {
           </View> */}
           {/* </View> */}
         </ScrollView>
+        <SuccessModal
+                isOpen={this.state.isOpenSuccessModel}
+                text={t("tofix", this.state.locale)}
+                onClose={() => this._handleOnClose()}
+              />
+        <SuccessModal
+        isOpen={this.state.isOpenSuccessModelApprove}
+        text={t("qrregistersuccess", this.state.locale)}
+        onClose={() => this._handleOnCloseApprove()}
+        />
       </View>
     );
   }

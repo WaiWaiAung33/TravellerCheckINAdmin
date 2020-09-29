@@ -5,7 +5,7 @@ import {
   View,
   Text,
   StyleSheet,
-  Image
+  Image,
 } from "react-native";
 
 export default class CustomModal extends React.Component {
@@ -34,7 +34,7 @@ export default class CustomModal extends React.Component {
             <View
               style={{
                 width: "100%",
-                alignItems: "flex-end"
+                alignItems: "flex-end",
               }}
             >
               <TouchableOpacity
@@ -50,7 +50,7 @@ export default class CustomModal extends React.Component {
             <View
               style={{
                 flex: 1,
-                flexDirection: "row"
+                flexDirection: "row",
               }}
             >
               <TouchableOpacity onPress={() => this.onPress("TAKE_PHOTO")}>
@@ -67,7 +67,7 @@ export default class CustomModal extends React.Component {
               >
                 <Image
                   source={require("@images/gallery.png")}
-                //   style={{width:50,height:50}}
+                  //   style={{width:50,height:50}}
                 />
                 <Text style={styles.text}>Gallery</Text>
               </TouchableOpacity>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   modalBody: {
     backgroundColor: "#E3EEF5",
@@ -93,26 +93,26 @@ const styles = StyleSheet.create({
     height: 160,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10
+    borderRadius: 10,
   },
 
   image: {
     width: 50,
     height: 50,
-    borderRadius:10,
+    borderRadius: 10,
     // borderWidth:1
   },
   text: {
     fontSize: 14,
     // fontFamily: Fonts.secondary,
     marginTop: 5,
-    textAlign: "center"
+    textAlign: "center",
   },
   closeBtn: {
-    padding: 10
+    padding: 10,
   },
   closeIcon: {
     width: 20,
-    height: 20
-  }
+    height: 20,
+  },
 });

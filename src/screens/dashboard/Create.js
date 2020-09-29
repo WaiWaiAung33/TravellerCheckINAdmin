@@ -31,7 +31,7 @@ import {
   GetCityApi,
   GetTownshipApi,
   GetNrcStateApi,
-  CreateApi,
+  RegisterApi,
 } from "@api/Url";
 
 // const USERTYPE = [
@@ -121,8 +121,9 @@ export default class Create extends React.Component {
       ISERRORDESIGNATION: false,
       ISERRORDEPARTMENT: false,
       ISERRORMINISTRYINPUT: false,
-      selectedData:"0",
-      
+      selectedData: "0",
+      check_by: "",
+      approve_by: "",
     };
     this.BackHandler = null;
   }
@@ -133,14 +134,19 @@ export default class Create extends React.Component {
     this.setState({ locale: res });
     this.setBackHandler();
     const access_token = await AsyncStorage.getItem("access_token");
-    const loginID = await AsyncStorage.getItem("loginID");
+    const checkby = await AsyncStorage.getItem("approvename");
+    const approveby = await AsyncStorage.getItem("approvename");
+
+    // const loginID = await AsyncStorage.getItem("loginID");
     const userid = await AsyncStorage.getItem("userid");
     // console.log(userid);
     this.setState({
       access_token: access_token,
-      loginID: loginID,
+      // loginID: loginID,
       user_id: userid,
       usertype: { value: 0, label: t("people", this.state.locale) },
+      check_by: checkby,
+      approve_by: approveby,
     });
     this.getCityAll();
     this.getEndtownshipAll();
@@ -603,6 +609,8 @@ export default class Create extends React.Component {
       formData.append("startcity_id", this.state.city.value);
       formData.append("starttownship_id", this.state.township.value);
       formData.append("start_place", this.state.startplaces);
+      formData.append("checked_by", this.state.check_by);
+      formData.append("approved_by", this.state.approve_by);
       formData.append("designation", this.state.designation);
       formData.append("department", this.state.department);
       formData.append("ministry_input", this.state.ministry_input);
@@ -674,20 +682,16 @@ export default class Create extends React.Component {
         "ministry_id",
         this.state.education.value ? this.state.education.value : null
       );
-      formData.append("gender",this.state.selectedData);
+      formData.append("gender", this.state.selectedData);
       console.log(formData);
       axios
-        .post(CreateApi, formData, {
+        .post(RegisterApi, formData, {
           headers,
         })
         .then(function (response) {
-          console.log("Response",response.data);
+          console.log("Response", response.data);
 
           if (response.data.status == 1) {
-            // alert(response.data.message);
-            // setTimeout(function() {
-            //   self.setState({ isOpenSuccessModal: true });
-            // },10);
             self.setState({
               name: "",
               nrccode: { value: null, label: null },
@@ -716,6 +720,7 @@ export default class Create extends React.Component {
               designation: "",
               department: "",
               ministry_input: "",
+              loginID: "",
             });
           } else {
             alert(response.data.message);
@@ -728,225 +733,6 @@ export default class Create extends React.Component {
     }
   }
 
-  _handleSaveCreate() {
-    // alert("helo")
-    // alert(this.state.nrccode.value);
-    let isError = false;
-    if (this.state.startplaces == "") {
-      // alert("Helo");
-      this.setState({ ISERRORSTARTPLACE: true });
-      isError = true;
-    }
-    if (this.state.showcheckbox == false) {
-      if (this.state.addressText == "") {
-        this.setState({ ISERRORENDPLACE: true });
-        isError = true;
-      }
-    }
- 
-
-    if (this.state.township.value == null) {
-      // alert("Helo");
-      this.setState({ ISERRORSTARTTOWNSHIP: true });
-      isError = true;
-    }
-    if (this.state.showcheckbox == false) {
-      if (this.state.endtownship.value == null) {
-        // alert("Helo");
-        this.setState({ ISERRRORENDTOWNSHIP: true });
-        isError = true;
-      }
-    }
-
-    if (this.state.city.value == null) {
-      // alert("Helo");
-      this.setState({ ISERRORSTARTCITY: true });
-      isError = true;
-    }
-
-    // if (this.state.usertype.value == 1) {
-    //   // alert("Helo");
-    //   this.setState({ ISERRORSTARTCITY: true });
-    //   isError = true;
-    // }
-
-
-    if (this.state.imagePath == null) {
-      // alert("Helo");
-      this.setState({ ISERRORNRCFRONT: true });
-      isError = true;
-    }
-
-    if (this.state.imagePathNrcBack == null) {
-      // alert("Helo");
-      this.setState({ ISERRORNRCBACK: true });
-      isError = true;
-    }
-
-    // if (this.state.imagePathSupport == null) {
-    //   // alert("Helo");
-    //   this.setState({ ISERRORSUPPORT: true });
-    //   isError = true;
-    // }
-    if (this.state.usertype.value == 1) {
-      if (this.state.imagePathMo == null) {
-        // alert("Helo");
-        this.setState({ ISERRORMO: true });
-        isError = true;
-      }
-    }
-
-    if (!isError) {
-      // alert("Hello");
-      const self = this;
-      self.setState({ modalVisible: true });
-      const headers = {
-        Accept: "application/json",
-        Authorization: "Bearer " + self.state.access_token,
-        "Content-Type": "multipart/form-data",
-      };
-      const formData = new FormData();
-      const { imagePathNrcBack } = this.state;
-      const { imagePath } = this.state;
-      const { imagePathSupport } = this.state;
-      const { imagePathMo } = this.state;
-
-      formData.append("citizen_status", this.state.usertype.value);
-      formData.append("userId", this.state.user_id);
-      formData.append("name", this.state.name);
-      formData.append("nrc_code_id", this.state.nrccode.value);
-      formData.append("nrc_state_id", this.state.nrcstate.value);
-      formData.append("nrc_type_id", this.state.nrcstatus.value);
-      formData.append("nrc_no", this.state.nrcnumber);
-      formData.append("phone_no", this.state.loginID);
-      formData.append("vehicle_no", this.state.vehicle);
-      formData.append("startcity_id", this.state.city.value);
-      formData.append("starttownship_id", this.state.township.value);
-      formData.append("start_place", this.state.startplaces);
-      formData.append("designation", this.state.designation);
-      formData.append("department", this.state.department);
-      formData.append("ministry_input", this.state.ministry_input);
-      formData.append("ministry_status", this.state.showcheckbox ? 1 : 0);
-      formData.append("gender",this.state.selectedData);
-      formData.append(
-        "endPlace_id",
-        this.state.endtownship.value
-          ? this.state.endtownship.value
-          : this.state.townshipministrayid
-      );
-      formData.append(
-        "end_place",
-        this.state.addressText ? this.state.addressText : this.state.address
-      );
-      if (imagePathNrcBack) {
-        const uriPart = imagePathNrcBack.split(".");
-        const fileExtension = uriPart[uriPart.length - 1];
-        const fileName = imagePathNrcBack.substr(
-          imagePathNrcBack.lastIndexOf("/") + 1
-        );
-
-        formData.append("nrc_back", {
-          uri: imagePathNrcBack,
-          name: fileName,
-          type: `image/${fileExtension}`,
-        });
-      }
-      if (imagePath) {
-        const uriPart = imagePath.split(".");
-        const fileExtension = uriPart[uriPart.length - 1];
-        const fileName = imagePath.substr(imagePath.lastIndexOf("/") + 1);
-
-        formData.append("nrc_front", {
-          uri: imagePath,
-          name: fileName,
-          type: `image/${fileExtension}`,
-        });
-      }
-      if (imagePathSupport) {
-        const uriPart = imagePathSupport.split(".");
-        const fileExtension = uriPart[uriPart.length - 1];
-        const fileName = imagePathSupport.substr(
-          imagePathSupport.lastIndexOf("/") + 1
-        );
-
-        formData.append("approved_photo", {
-          uri: imagePathSupport,
-          name: fileName,
-          type: `image/${fileExtension}`,
-        });
-      }
-      if (imagePathMo) {
-        const uriPart = imagePathMo.split(".");
-        const fileExtension = uriPart[uriPart.length - 1];
-        const fileName = imagePathMo.substr(imagePathMo.lastIndexOf("/") + 1);
-
-        formData.append("mo_photo", {
-          uri: imagePathMo,
-          name: fileName,
-          type: `image/${fileExtension}`,
-        });
-      }
-      formData.append("passport", this.state.pass);
-      formData.append(
-        "q_status",
-        this.state.qstatus ? this.state.qstatus : this.state.qtownstatus
-      );
-      formData.append(
-        "ministry_id",
-        this.state.education.value ? this.state.education.value : null
-      );
-      console.log(formData);
-      axios
-        .post(CreateApi, formData, {
-          headers,
-        })
-        .then(function (response) {
-          console.log("Response",response.data);
-          if (response.data.status == 1) {
-            // alert(response.data.message);
-            // setTimeout(function() {
-            //   self.setState({ isOpenSuccessModal: true });
-            // },10);
-            self.setState({
-              name: "",
-              nrccode: { value: null, label: null },
-              nrcstatus: { value: null, label: null },
-              nrcstate: { value: null, label: null },
-              city: { value: null, label: null },
-              township: { value: null, label: null },
-              endtownship: { value: null, label: null },
-              townshipministrayid: null,
-              showcheckbox: false,
-              qstatusboolean: false,
-              qtownstatusboolean: false,
-              education: { value: null, label: null },
-              nrcnumber: "",
-              vehicle: "",
-              startplaces: "",
-              address: "",
-              addressText: "",
-              imagePath: null,
-              imagePathMo: null,
-              imagePathNrcBack: null,
-              passport: "",
-              imagePathSupport: null,
-              isOpenCreateSuccessModel: true,
-              modalVisible: false,
-              designation: "",
-              department: "",
-              ministry_input: "",
-            });
-          } else {
-            alert(response.data.message);
-          }
-        })
-        .catch(function (err) {
-          console.log("Error", err);
-          self.setState({ modalVisible: false });
-        });
-    }
-  }
-
   _gotoStep(step) {
     let isError = false;
     if (this.state.name == "") {
@@ -954,11 +740,7 @@ export default class Create extends React.Component {
       this.setState({ ISERRORNAME: true });
       isError = true;
     }
-    // if (this.state.nrcnumber == "" && this.state.pass) {
-    //   // alert("Helo");
-    //   this.setState({ ISERRORNRCNUMBER: true,ISERRORPASSPORT:true});
-    //   isError = true;
-    // }
+
     if (this.state.usertype.value == 4) {
       if (this.state.pass == "") {
         this.setState({ ISERRORPASSPORT: true });
@@ -993,32 +775,28 @@ export default class Create extends React.Component {
         isError = true;
       }
     }
-    if (this.state.usertype.value == 1 || this.state.usertype.value ==3) {
-      if(this.state.designation == ""){
+    if (this.state.usertype.value == 1 || this.state.usertype.value == 3) {
+      if (this.state.designation == "") {
         this.setState({ ISERRORDESIGNATION: true });
         isError = true;
       }
       // alert("Helo");
-    
     }
-    if (this.state.usertype.value == 1 || this.state.usertype.value ==3) {
-      if(this.state.department == ""){
+    if (this.state.usertype.value == 1 || this.state.usertype.value == 3) {
+      if (this.state.department == "") {
         this.setState({ ISERRORDEPARTMENT: true });
         isError = true;
       }
       // alert("Helo");
-     
     }
-    if (this.state.usertype.value == 1 || this.state.usertype.value ==3) {
-      if(this.state.ministry_input == ""){
+    if (this.state.usertype.value == 1 || this.state.usertype.value == 3) {
+      if (this.state.ministry_input == "") {
         this.setState({ ISERRORMINISTRYINPUT: true });
         isError = true;
       }
       // alert("Helo");
-     
     }
- 
-  
+
     // if (this.state.vehicle == "") {
     //   // alert("Helo");
     //   this.setState({ ISERRORVERICHAL: true });
@@ -1114,7 +892,7 @@ export default class Create extends React.Component {
     this.setState({ imagePathMo: image.uri, ISERRORMO: false });
   }
 
-  handleOnChangeRadioValue(key,value){
+  handleOnChangeRadioValue(key, value) {
     // alert(value);
     switch (key) {
       case GENDER:
@@ -1443,34 +1221,32 @@ export default class Create extends React.Component {
                   </View>
 
                   <View style={styles.secondContainer}>
-                     
-                    <View style={{flexDirection:"row"}}>
-                      <View style={{paddingRight:15}}>
-                      <Text style={styles.text}>
-                       {t("gender",this.state.locale)}
-                      </Text>
+                    <View style={{ flexDirection: "row" }}>
+                      <View style={{ paddingRight: 15 }}>
+                        <Text style={styles.text}>
+                          {t("gender", this.state.locale)}
+                        </Text>
                       </View>
                       <View>
                         <Radio
-                         label={t("male",this.state.locale)}
-                         active={this.state.selectedData == "0" ? true : false}
-                         onPress={() =>
-                           this.handleOnChangeRadioValue(GENDER, "0")
-                         }
-
+                          label={t("male", this.state.locale)}
+                          active={this.state.selectedData == "0" ? true : false}
+                          onPress={() =>
+                            this.handleOnChangeRadioValue(GENDER, "0")
+                          }
                         />
                       </View>
                       <View>
                         <Radio
-                         label={t("female",this.state.locale)}
-                         active={this.state.selectedData == "1" ? true : false}
-                         onPress={() =>
-                           this.handleOnChangeRadioValue(GENDER, "1")
-                         }
+                          label={t("female", this.state.locale)}
+                          active={this.state.selectedData == "1" ? true : false}
+                          onPress={() =>
+                            this.handleOnChangeRadioValue(GENDER, "1")
+                          }
                         />
                       </View>
                     </View>
-                    </View>
+                  </View>
 
                   {this.state.usertype.value == 4 ? (
                     <View style={styles.secondContainer}>
@@ -1576,7 +1352,8 @@ export default class Create extends React.Component {
                     </View>
                   )}
 
-                  {this.state.usertype.value == 1 || this.state.usertype.value ==3 ? (
+                  {this.state.usertype.value == 1 ||
+                  this.state.usertype.value == 3 ? (
                     <View>
                       <View style={styles.secondContainer}>
                         <Text style={styles.text}>
@@ -1648,7 +1425,10 @@ export default class Create extends React.Component {
                     <TextInput
                       style={styles.textInput}
                       value={this.state.loginID}
-                      editable={false}
+                      onChangeText={(value) =>
+                        this.setState({ loginID: value })
+                      }
+                      // editable={false}
                     />
                   </View>
                   <View style={styles.secondContainer}>
@@ -1918,18 +1698,11 @@ export default class Create extends React.Component {
                   <View
                     style={{
                       flexDirection: "row",
-                      justifyContent: "space-between",
+                      justifyContent: "flex-end",
                       marginTop: 10,
+                      alignItems: "flex-end",
                     }}
                   >
-                    <TouchableOpacity
-                      style={[styles.touchBtn, { width: "45%" }]}
-                      onPress={() => this._handleSaveCreate()}
-                    >
-                      <Text style={{ color: "white", fontWeight: "bold" }}>
-                        {t("createnew", this.state.locale)}
-                      </Text>
-                    </TouchableOpacity>
                     <TouchableOpacity
                       style={[styles.touchBtn, { width: "45%" }]}
                       onPress={() => this._handleSave()}

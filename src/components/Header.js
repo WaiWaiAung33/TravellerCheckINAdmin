@@ -34,9 +34,8 @@ export default class Header extends React.Component {
         </TouchableOpacity>
 
         <Text style={styles.text}>{this.props.name}</Text>
-        {
-          this.props.number ? (
-            <View
+        {this.props.number ? (
+          <View
             style={{
               marginRight: 10,
               width: 25,
@@ -45,15 +44,13 @@ export default class Header extends React.Component {
               borderRadius: 13,
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor:"white",
-              borderColor:"white"
+              backgroundColor: "white",
+              borderColor: "white",
             }}
           >
             <Text>{this.props.number}</Text>
           </View>
-          ):null
-        }
-      
+        ) : null}
       </View>
     );
   }

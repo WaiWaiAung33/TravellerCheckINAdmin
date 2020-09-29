@@ -22,8 +22,8 @@ export default class LanguageModal extends React.Component {
       enCheck: false,
       locale: null,
       isCheck: false,
-      mmcolor:"",
-      encolor:""
+      mmcolor: "",
+      encolor: "",
     };
   }
   async componentWillMount() {
@@ -31,12 +31,10 @@ export default class LanguageModal extends React.Component {
     if (res == "MM") {
       this.setState({
         mmCheck: true,
-      
       });
     } else {
       this.setState({
         enCheck: true,
-      
       });
     }
   }
@@ -113,9 +111,7 @@ export default class LanguageModal extends React.Component {
               <TouchableOpacity
                 onPress={() => this._handleLanguage("MM")}
                 style={{
-                  backgroundColor: this.state.mmCheck
-                    ?"#E5DEDE"
-                    : "#ffffff",
+                  backgroundColor: this.state.mmCheck ? "#E5DEDE" : "#ffffff",
                 }}
               >
                 <View style={styles.myanmarCheck}>
@@ -126,10 +122,8 @@ export default class LanguageModal extends React.Component {
               <TouchableOpacity
                 onPress={() => this._handleLanguage("EN")}
                 style={{
-                  backgroundColor: this.state.enCheck 
-                    ? "#E5DEDE"
-                    : "#ffffff",
-                    marginBottom:30
+                  backgroundColor: this.state.enCheck ? "#E5DEDE" : "#ffffff",
+                  marginBottom: 30,
                 }}
               >
                 <View style={styles.englishCheck}>
@@ -189,7 +183,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     right: 0,
-    marginTop:5
+    marginTop: 5,
   },
   closeIcon: {
     width: 18,

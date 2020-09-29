@@ -31,6 +31,7 @@ import { LANGUAGE } from "@consts/Const";
 
 import { setItem } from "@services/Storage";
 import { toHumanSize } from "i18n-js";
+import * as Permissions from "expo-permissions";
 
 const { height, width } = Dimensions.get("window");
 export default class Home extends React.Component {
@@ -140,6 +141,12 @@ export default class Home extends React.Component {
   _handleSetLocaleAsyncStorage = async () => {
     this.setState({ confirmLocaleModalOpen: false });
   };
+ async _handleScanQr(){
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    status === "granted"
+    ? this.props.navigation.navigate("QrScan", { status: true })
+    : null;
+  }
 
   render() {
     // console.log(this.state.version);
@@ -275,10 +282,21 @@ export default class Home extends React.Component {
         <TouchableOpacity
             activeOpacity={0.8}
             style={[styles.touchBtn, { backgroundColor: "#EBB318" }]}
-            onPress={() => this.props.navigation.navigate("ToleGateList")}
+            onPress={() => this.props.navigation.navigate("Registeruser")}
           >
             <Text style={styles.text}>
-              {t("tolegatelist", this.state.locale)}
+              {t("registeruser", this.state.locale)}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={[styles.touchBtn, { backgroundColor: "#6CD24A" }]}
+            onPress={()=>this._handleScanQr()}
+            // onPress={() => this.props.navigation.navigate("QrScan")}
+          >
+            <Text style={styles.text}>
+              {t("qrscan", this.state.locale)}
             </Text>
           </TouchableOpacity>
 
@@ -291,7 +309,7 @@ export default class Home extends React.Component {
               {t("createform", this.state.locale)}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             activeOpacity={0.8}
             style={[styles.touchBtn, { backgroundColor: "#E99944" }]}
             onPress={() => this.props.navigation.navigate("ToleGateList")}
@@ -299,7 +317,7 @@ export default class Home extends React.Component {
             <Text style={styles.text}>
               {t("tolegatelist", this.state.locale)}
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             activeOpacity={0.8}
             style={[styles.touchBtn, { backgroundColor: "#C716F1" }]}
@@ -309,18 +327,30 @@ export default class Home extends React.Component {
               {t("travelnote", this.state.locale)}
             </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={[styles.touchBtn, { backgroundColor: "#F90E26" }]}
+            onPress={() => this.props.navigation.navigate("PlusDashboard")}
+          >
+            <Text style={styles.text}>
+              {t("pluscase", this.state.locale)}
+            </Text>
+          </TouchableOpacity>
         </View>
         </ScrollView>
         <View
           style={{
             alignItems: "center",
-            flex: 1,
+            // flex: 1,
             justifyContent: "flex-end",
             marginBottom: 10,
+            marginTop:10,
+            // backgroundColor:"red"
           }}
         >
           <Text>Version {appjson.expo.version}</Text>
         </View>
+        
         <LanguageModal
           isOpen={this.state.isOpenLangModal}
           getCheckLang={(locale) => this.handleGetLocale(locale)}
@@ -359,7 +389,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     marginTop: 10,
-    padding: 25,
+    padding:20,
     backgroundColor: "#308DCC",
     borderRadius: 5,
     justifyContent: "center",
@@ -370,21 +400,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   secondContainer: {
-    height: 300,
+    height:250,
     backgroundColor: "#308DCC",
     // alignItems: "center",
   },
   imgHeader: {
-    width: 110,
-    height: 110,
+    width: 75,
+    height: 75,
   },
   imgContainer: {
     backgroundColor: "white",
-    width: 120,
-    height: 120,
+    width: 80,
+    height: 80,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 65,
+    borderRadius: 40,
     marginTop: "10%",
   },
 });

@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     margin: 10,
-    color:"#7A7171"
+    color: "#7A7171",
   },
   activeText: {
     color: "black",

@@ -5,13 +5,13 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { t, getLang } from "@services/Localization";
 
 export default class ToleGateCard extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       locale: null,
-    }
+    };
   }
-  async componentDidMount(){
+  async componentDidMount() {
     const res = await getLang();
     this.setState({ locale: res });
   }
@@ -22,11 +22,11 @@ export default class ToleGateCard extends React.Component {
   }
   NrcFilter() {
     if (this.props.cityzien == 2) {
-      return t("religionNo",this.state.locale);
+      return t("religionNo", this.state.locale);
     } else if (this.props.cityzien == 4) {
-      return t("forino",this.state.locale);
+      return t("forino", this.state.locale);
     } else {
-      return t("nrcno",this.state.locale);
+      return t("nrcno", this.state.locale);
     }
   }
   _showNRCText() {
@@ -49,7 +49,9 @@ export default class ToleGateCard extends React.Component {
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
               <Text style={styles.firstText}>
-                {this.props.cityzien == 2 ? t("Bhikkhuname",this.state.locale) : t("name",this.state.locale)}
+                {this.props.cityzien == 2
+                  ? t("Bhikkhuname", this.state.locale)
+                  : t("name", this.state.locale)}
               </Text>
               <Text style={styles.secondText}>{this.props.name}</Text>
             </View>
@@ -65,7 +67,9 @@ export default class ToleGateCard extends React.Component {
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
-              <Text style={styles.firstText}>{t("phone",this.state.locale)}</Text>
+              <Text style={styles.firstText}>
+                {t("phone", this.state.locale)}
+              </Text>
               <Text style={styles.secondText}>{this.props.phoneNo}</Text>
             </View>
           </View>

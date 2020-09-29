@@ -16,7 +16,7 @@ import DatePicker from "react-native-datepicker";
 import Moment from "moment";
 //import components
 import DropDown from "@components/DropDown";
-import TravelNoteCard from "@components/TravelNoteCard";
+import RegisteruserCard from "@components/RegisteruserCard";
 import Header from "@components/Header";
 import Loading from "@components/Loading";
 //import styles
@@ -25,8 +25,7 @@ const { width, height } = Dimensions.get("window");
 
 //import api
 const axios = require("axios");
-import { RegisterHistoryApi } from "@api/Url";
-import TravelNoteApi from "@api/TravelNoteApi";
+import { TravelHistoryApi } from "@api/Url";
 
 //import services
 import { t, getLang } from "@services/Localization";
@@ -55,7 +54,6 @@ export default class TravelNote extends React.Component {
     };
     this.BackHandler = null;
     this.page = 1;
-    this.TravelNoteApi = new TravelNoteApi();
   }
   async componentDidMount() {
     const { navigation } = this.props;
@@ -119,25 +117,23 @@ export default class TravelNote extends React.Component {
       });
     }
     var access_token = await AsyncStorage.getItem("access_token");
-    var user_id = await AsyncStorage.getItem("userid");
     var self = this;
     let bodyParam = {
       start_date: self.state.changestartDate,
       end_date: self.state.changeendDate,
       page: page,
-      userId: user_id,
-      status: "all",
+      status: "0",
     };
     // console.log(bodyParam);
     axios
-      .post(RegisterHistoryApi, bodyParam, {
+      .post(TravelHistoryApi, bodyParam, {
         headers: {
           Accept: "application/json",
           Authorization: "Bearer " + access_token,
         },
       })
       .then(function (response) {
-        // console.log(response.data.history.data);
+        console.log(response.data);
         self.setState({
           data: [...self.state.data, ...response.data.history.data],
           refreshing: false,
@@ -159,88 +155,87 @@ export default class TravelNote extends React.Component {
       });
   };
 
-  _handleSearch(page, status, statusid, startdate, enddate) {
-    // alert(status);
-    this.state.data = [];
-    const self = this;
-    self.setState({ isSearched: true });
-    let bodyParam = {
-      userId: self.state.user_id,
-      status: status,
-      start_date: startdate,
-      end_date: enddate,
-      page: page,
-      q_status: statusid,
-    };
-    // console.log("bodyParam",bodyParam);
-    axios
-      .post(RegisterHistoryApi, bodyParam, {
-        headers: {
-          Accept: "application/json",
-          Authorization: "Bearer " + self.state.access_token,
-        },
-      })
-      .then(function (response) {
-        // console.log(response.data.history.data);
-        self.setState({
-          data: [...self.state.data, ...response.data.history.data],
-          // searchTravel: response.data.history.data,
-        });
-      })
-      .catch(function (err) {
-        // alert("Error");
-        self.setState({
-          refreshing: false,
-          isLoading: false,
-          isFooterLoading: false,
-        });
-        // console.log("Customer Error", err);
-      });
-  }
-  _hadleChangeUserType(status) {
-    // alert(status);
-    if (status == 0) {
-      this.setState({
-        usertype: "all",
-        qStatus: 0,
-      });
-    } else if (status == 1) {
-      this.setState({
-        usertype: "1",
-        qStatus: 0,
-      });
-    } else if (status == 2) {
-      this.setState({
-        usertype: "2",
-        qStatus: 0,
-      });
-    } else if (status == 3) {
-      this.setState({
-        usertype: "3",
-        qStatus: 0,
-      });
-    } else if (status == 4) {
-      this.setState({
-        usertype: "3",
-        qStatus: 1,
-      });
-    } else {
-      this.setState({
-        usertype: "4",
-        qStatus: 0,
-      });
-    }
-    // alert("Status"+status+"qStatus"+this.state.qStatus)
-  }
+  //   _handleSearch(page, status, statusid, startdate, enddate) {
+  //     // alert(status);
+  //     this.state.data = [];
+  //     const self = this;
+  //     self.setState({ isSearched: true });
+  //     let bodyParam = {
+  //       userId: self.state.user_id,
+  //       status: status,
+  //       start_date: startdate,
+  //       end_date: enddate,
+  //       page: page,
+  //       q_status: statusid,
+  //     };
+  //     // console.log("bodyParam",bodyParam);
+  //     axios
+  //       .post(RegisterHistoryApi, bodyParam, {
+  //         headers: {
+  //           Accept: "application/json",
+  //           Authorization: "Bearer " + self.state.access_token,
+  //         },
+  //       })
+  //       .then(function (response) {
+  //         // console.log(response.data.history.data);
+  //         self.setState({
+  //           data: [...self.state.data, ...response.data.history.data],
+  //           // searchTravel: response.data.history.data,
+  //         });
+  //       })
+  //       .catch(function (err) {
+  //         // alert("Error");
+  //         self.setState({
+  //           refreshing: false,
+  //           isLoading: false,
+  //           isFooterLoading: false,
+  //         });
+  //         // console.log("Customer Error", err);
+  //       });
+  //   }
+  //   _hadleChangeUserType(status) {
+  //     // alert(status);
+  //     if (status == 0) {
+  //       this.setState({
+  //         usertype: "all",
+  //         qStatus: 0,
+  //       });
+  //     } else if (status == 1) {
+  //       this.setState({
+  //         usertype: "1",
+  //         qStatus: 0,
+  //       });
+  //     } else if (status == 2) {
+  //       this.setState({
+  //         usertype: "2",
+  //         qStatus: 0,
+  //       });
+  //     } else if (status == 3) {
+  //       this.setState({
+  //         usertype: "3",
+  //         qStatus: 0,
+  //       });
+  //     } else if (status == 4) {
+  //       this.setState({
+  //         usertype: "3",
+  //         qStatus: 1,
+  //       });
+  //     } else {
+  //       this.setState({
+  //         usertype: "4",
+  //         qStatus: 0,
+  //       });
+  //     }
+  //     // alert("Status"+status+"qStatus"+this.state.qStatus)
+  //   }
 
-  _handleOnSelect(value, label) {
-    // alert("Hello");
-    this.setState({
-      status: { value: value, label: label },
-    });
+  //   _handleOnSelect(value, label) {
+  //     this.setState({
+  //       status: { value: value, label: label },
+  //     });
 
-    this._hadleChangeUserType(value);
-  }
+  //     this._hadleChangeUserType(value);
+  //   }
   onRefresh = () => {
     this.setState({
       data: [],
@@ -255,21 +250,8 @@ export default class TravelNote extends React.Component {
   }
 
   renderFilter() {
-    // alert("Hello")
-    const STATUS = [
-      { value: 0, label: t("all", this.state.locale) },
-      { value: 1, label: t("allow", this.state.locale) },
-      { value: 2, label: t("tofix", this.state.locale) },
-      { value: 3, label: t("approve", this.state.locale) },
-      { value: 4, label: t("quartine", this.state.locale) },
-      { value: 5, label: t("cancelregister", this.state.locale) },
-    ];
     return (
       <View>
-        <View style={{flexDirection:"row"}}>
-        <Text style={{width:"50%",marginLeft:10}}>{t("startdate",this.state.locale)}</Text>
-        <Text style={{width:"50%"}}>{t("enddate",this.state.locale)}</Text>
-        </View>
         <View style={styles.secondContainer}>
           <DatePicker
             date={this.state.changestartDate}
@@ -304,40 +286,6 @@ export default class TravelNote extends React.Component {
             onDateChange={(date) => this.setState({ changeendDate: date })}
           />
         </View>
-        <View
-          style={{
-            marginLeft: 10,
-            marginRight: 10,
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={{ width: "65%" }}>
-            <DropDown
-              value={this.state.status}
-              options={STATUS}
-              optionsContainerWidth="60%"
-              onSelect={(value, label) => this._handleOnSelect(value, label)}
-            />
-          </View>
-          <View style={{ width: "30%" }}>
-            <TouchableOpacity
-              style={styles.touchBtn}
-              onPress={() =>
-                this._handleSearch(
-                  this.page,
-                  this.state.usertype,
-                  this.state.qStatus,
-                  this.state.changestartDate,
-                  this.state.changeendDate
-                )
-              }
-            >
-              <Image source={require("@images/search.png")} />
-              <Text style={styles.text}>{t("search", this.state.locale)}</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
       </View>
     );
   }
@@ -370,15 +318,11 @@ export default class TravelNote extends React.Component {
     );
   };
   _handleTravelNoteDetail(arrIndex, item) {
-    // console.log(item);
-    if (arrIndex == 1 && item.status == 0) {
-      this.props.navigation.navigate("RegisterDetail", { userid: item.id,backRoute:"TravelNote"});
-    } 
-    // else if (arrIndex == 1 ) {
-    //   this.props.navigation.navigate("TravelQr", { data: item });
-    // }
-     else if (arrIndex == 1) {
-      this.props.navigation.navigate("TravelNoteDetail", { userid: item.id,backRoute:"TravelNote" });
+    if (arrIndex == 1) {
+      this.props.navigation.navigate("RegisterDetail", {
+        userid: item.id,
+        backRoute: "Registeruser",
+      });
     }
   }
 
@@ -395,7 +339,7 @@ export default class TravelNote extends React.Component {
     return (
       <View style={styles.container}>
         <Header
-          name={t("travelnote", this.state.locale)}
+          name={t("registeruser", this.state.locale)}
           Onpress={() => this.props.navigation.navigate("Home")}
         />
         {/* <ScrollView showsVerticalScrollIndicator={false}> */}
@@ -403,7 +347,7 @@ export default class TravelNote extends React.Component {
         <FlatList
           showsVerticalScrollIndicator={false}
           data={dataList}
-          extraData={this.state}
+          // extraData={this.state}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
@@ -414,7 +358,7 @@ export default class TravelNote extends React.Component {
           renderItem={({ item }) => (
             // console.log(item),
             <View style={{ marginTop: 5 }}>
-              <TravelNoteCard
+              <RegisteruserCard
                 name={item.name}
                 date={Moment(item.created_at).format("DD-MM-YYYY")}
                 phone={item.ph_no}
@@ -454,7 +398,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   secondContainer: {
-    marginTop:5,
+    marginTop: 10,
     justifyContent: "space-between",
     flexDirection: "row",
     margin: 10,

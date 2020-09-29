@@ -45,7 +45,7 @@ export default class ImgUploadBtn extends React.Component {
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1
+      quality: 1,
     });
     this.setState({ isOpenPhotoModal: false });
     if (pickerResult.cancelled == false) {
@@ -60,7 +60,7 @@ export default class ImgUploadBtn extends React.Component {
     let imagResult = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 0.5
+      quality: 0.5,
     });
     this.setState({ isOpenPhotoModal: false });
     if (imagResult.cancelled == false) {
@@ -70,7 +70,6 @@ export default class ImgUploadBtn extends React.Component {
       }
     }
   };
-
 
   _handleOnChoose(action) {
     if (action == "PICK_PHOTO") {

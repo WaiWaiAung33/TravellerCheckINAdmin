@@ -88,14 +88,16 @@ export default class Login extends React.Component {
             },
           })
           .then(function (response) {
-            // console.log("Authorization is ",  response.data);
+            console.log("Authorization is ", response.data.user.id.toString());
             if (response.data.status == "1") {
               // alert(response.data.user.role_id);
-           
+              var userid = response.data.user.id.toString();
               AsyncStorage.multiSet(
                 [
                   ["access_token", response.data.access_token],
                   ["user_id",response.data.user.email],
+                  ["userid", userid],
+                  ["approvename",response.data.user.name]
                 ],
                 (err) => {
                   if (err) {
@@ -255,6 +257,7 @@ export default class Login extends React.Component {
             </View>
 
             <TextInput
+              secureTextEntry={true}
               style={styles.textInput}
               value={this.state.password}
               placeholder={t("password",this.state.locale)}

@@ -2,7 +2,7 @@ import React from "react";
 import {createAppContainer} from "react-navigation";
 import {createStackNavigator} from "react-navigation-stack";
 import Login from "@screens/account/login";
-import OTPCode from "@screens/account/OTPCode";
+
 export default createAppContainer(
     createStackNavigator(
        {
@@ -12,12 +12,7 @@ export default createAppContainer(
                 headerShown:false
                })
            },
-           OTPCode:{
-            screen:OTPCode,
-            navigationOptions:({navigation})=>({
-             headerShown:false
-            })
-        }
+         
        },
        {
            initialRouteName:"Login",
